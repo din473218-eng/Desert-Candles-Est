@@ -1,0 +1,6 @@
+{
+  "name": "Desert Candles Est. - HR Consultancy & E-Services",
+  "description": "Immersive 3D web experience for Desert Candles Est., showcasing luxury HR consultancy, technology-driven e-services, and strategic human capital solutions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
