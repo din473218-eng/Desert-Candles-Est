@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { CoreCapabilities } from './components/CoreCapabilities';
@@ -12,7 +13,8 @@ import { FinalCTA } from './components/FinalCTA';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 
-export default function App() {
+function MainContent() {
+  const { isRTL } = useLanguage();
   const [inquirySubject, setInquirySubject] = useState<string>('');
 
   const scrollToContact = (subject?: string) => {
@@ -42,22 +44,22 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#1E1C1A] selection:bg-[#B87B3E] selection:text-white">
       {/* Light Ivory Sticky Header */}
-      <Header onOpenContact={() => scrollToContact('General Inquiry')} />
+      <Header onOpenContact={() => scrollToContact(isRTL ? 'استفسار عام' : 'General Inquiry')} />
 
       {/* Hero Section: Golden Hour Corporate Skyline & Executive Silhouettes */}
       <HeroSection
-        onTalkToExperts={() => scrollToContact('Expert Consultation')}
+        onTalkToExperts={() => scrollToContact(isRTL ? 'استشارة الخبراء' : 'Expert Consultation')}
         onExploreServices={scrollToServices}
       />
 
       {/* Core Capabilities: 4-Column Ivory Divider Row */}
-      <CoreCapabilities onSelectCapability={(cap) => scrollToContact(`Capability: ${cap}`)} />
+      <CoreCapabilities onSelectCapability={(cap) => scrollToContact(`${isRTL ? 'المجال' : 'Capability'}: ${cap}`)} />
 
       {/* About Section: Glowing Network Image + Human Capital Narrative */}
       <AboutSection onDiscoverApproach={scrollToApproach} />
 
       {/* Services Showcase: 6 Clean White Cards on Light Ivory Background */}
-      <ServicesShowcase onSelectServiceForConsultation={(svc) => scrollToContact(`Service: ${svc}`)} />
+      <ServicesShowcase onSelectServiceForConsultation={(svc) => scrollToContact(`${isRTL ? 'الخدمة' : 'Service'}: ${svc}`)} />
 
       {/* Why Choose Us: Rich Desert Dark Brown Section with 2x2 Pillars */}
       <WhyChooseUs />
@@ -73,15 +75,23 @@ export default function App() {
 
       {/* Ready to Transform Your HR: Dark Warm Brown CTA Banner */}
       <FinalCTA
-        onGetInTouch={() => scrollToContact('HR Transformation')}
+        onGetInTouch={() => scrollToContact(isRTL ? 'تحول الموارد البشرية' : 'HR Transformation')}
         onExploreServices={scrollToServices}
       />
 
       {/* Let's Start a Conversation: Contact Section with Verified Info & Form */}
-      <ContactSection key={inquirySubject} initialSubject={inquirySubject} />
+      <ContactSection key={`${inquirySubject}-${isRTL}`} initialSubject={inquirySubject} />
 
       {/* Dark Luxury Footer */}
       <Footer />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <MainContent />
+    </LanguageProvider>
   );
 }

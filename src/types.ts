@@ -1,3 +1,5 @@
+export type Language = 'en' | 'ar';
+
 export interface ServiceItem {
   id: string;
   number: string;

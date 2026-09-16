@@ -1,15 +1,18 @@
 import React from 'react';
 import { DesertCandlesLogo } from './DesertCandlesLogo';
 import { Mail, Phone } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Footer: React.FC = () => {
+  const { t } = useLanguage();
+
   const navLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
-    { label: 'Our Approach', href: '#approach' },
-    { label: 'Why Choose Us', href: '#why-us' },
-    { label: 'Contact', href: '#contact' },
+    { label: t.nav.home, href: '#home' },
+    { label: t.nav.about, href: '#about' },
+    { label: t.nav.services, href: '#services' },
+    { label: t.nav.approach, href: '#approach' },
+    { label: t.nav.whyUs, href: '#why-us' },
+    { label: t.nav.contact, href: '#contact' },
   ];
 
   const handleNavClick = (href: string) => {
@@ -29,7 +32,7 @@ export const Footer: React.FC = () => {
               <DesertCandlesLogo theme="dark" size="md" />
             </div>
             <p className="text-xs text-[#8C7E6F] leading-relaxed">
-              Strategic HR solutions and technology-driven e-services for modern organizations.
+              {t.footer.tagline}
             </p>
           </div>
 
@@ -68,7 +71,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Copyright */}
         <div className="pt-8 text-center text-[11px] text-[#6E6356]">
-          © Desert Candles Est. All rights reserved.
+          {t.footer.rights}
         </div>
       </div>
     </footer>

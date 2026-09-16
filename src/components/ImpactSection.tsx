@@ -1,24 +1,15 @@
 import React from 'react';
 import { TrendingUp, Users, Heart, Cog } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ImpactSection: React.FC = () => {
-  const impacts = [
-    {
-      icon: <TrendingUp className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
-      title: 'Better HR Strategy',
-    },
-    {
-      icon: <Users className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
-      title: 'Stronger Talent',
-    },
-    {
-      icon: <Heart className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
-      title: 'Engaged Employees',
-    },
-    {
-      icon: <Cog className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
-      title: 'More Efficient Processes',
-    },
+  const { t } = useLanguage();
+
+  const icons = [
+    <TrendingUp key="trending" className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
+    <Users key="users" className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
+    <Heart key="heart" className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
+    <Cog key="cog" className="w-6 h-6 text-[#B87B3E]" strokeWidth={1.75} />,
   ];
 
   return (
@@ -26,23 +17,23 @@ export const ImpactSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Title */}
         <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#1E1C1A] tracking-tight mb-2">
-          The Impact We Create
+          {t.impact.title}
         </h2>
 
         {/* Subtitle */}
         <p className="text-xs sm:text-sm text-[#6E6458] mb-12 max-w-xl mx-auto">
-          Helping organizations build stronger teams, better processes and a brighter future.
+          {t.impact.subtitle}
         </p>
 
         {/* 4 Minimalist Floating Impact Items in a Row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          {impacts.map((item) => (
+          {t.impact.items.map((item, idx) => (
             <div
-              key={item.title}
+              key={idx}
               className="flex flex-col items-center justify-center p-4 group"
             >
               <div className="w-12 h-12 rounded-full bg-[#F3EFE8] flex items-center justify-center text-[#B87B3E] mb-3 group-hover:bg-[#EADFCF] group-hover:scale-105 transition-all">
-                {item.icon}
+                {icons[idx] || <TrendingUp className="w-6 h-6 text-[#B87B3E]" />}
               </div>
               <h3 className="font-serif font-semibold text-sm text-[#1E1C1A] group-hover:text-[#B87B3E] transition-colors">
                 {item.title}

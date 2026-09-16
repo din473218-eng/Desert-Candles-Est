@@ -1,8 +1,11 @@
 import React from 'react';
 import { Eye, Compass, Users2, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 import techHrImg from '../assets/images/tech_hr_office_1789469891928.jpg';
 
 export const TechAndVisionRow: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="vision-mission" className="py-16 lg:py-20 bg-[#FAF8F5] border-b border-[#ECE3D5]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,13 +29,13 @@ export const TechAndVisionRow: React.FC = () => {
               <div className="bg-white p-5 rounded-xl border border-[#E8DFC0]/80 flex flex-col justify-between shadow-sm">
                 <div>
                   <span className="text-[10px] uppercase font-mono tracking-wider text-[#B87B3E] font-semibold block mb-2">
-                    TECHNOLOGY + HR
+                    {t.techVision.tag}
                   </span>
                   <h3 className="font-serif font-bold text-sm text-[#1E1C1A] mb-2 leading-snug">
-                    Where HR Expertise Meets Technology
+                    {t.techVision.techHrTitle}
                   </h3>
                   <p className="text-xs text-[#6E6458] leading-relaxed">
-                    Desert Candles combines seasoned HR expertise with cutting-edge e-services for modern organizations.
+                    {t.techVision.techHrDesc}
                   </p>
                 </div>
               </div>
@@ -44,14 +47,14 @@ export const TechAndVisionRow: React.FC = () => {
                     <Eye className="w-4 h-4" />
                   </div>
                   <h3 className="font-serif font-bold text-sm text-[#1E1C1A] mb-2">
-                    Vision
+                    {t.techVision.visionTitle}
                   </h3>
                   <p className="text-xs text-[#6E6458] leading-relaxed">
-                    To be a leading HR consultancy recognized for our innovative solutions and commitment to excellence.
+                    {t.techVision.visionDesc}
                   </p>
                 </div>
                 <div className="pt-3 text-[#B87B3E]">
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180" />
                 </div>
               </div>
 
@@ -62,14 +65,14 @@ export const TechAndVisionRow: React.FC = () => {
                     <Compass className="w-4 h-4" />
                   </div>
                   <h3 className="font-serif font-bold text-sm text-[#1E1C1A] mb-2">
-                    Mission
+                    {t.techVision.missionTitle}
                   </h3>
                   <p className="text-xs text-[#6E6458] leading-relaxed">
-                    To empower organizations through strategic HR practices and technology-driven e-services to foster a thriving workplace culture.
+                    {t.techVision.missionDesc}
                   </p>
                 </div>
                 <div className="pt-3 text-[#B87B3E]">
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180" />
                 </div>
               </div>
 
@@ -80,10 +83,10 @@ export const TechAndVisionRow: React.FC = () => {
                     <Users2 className="w-4 h-4" />
                   </div>
                   <h3 className="font-serif font-bold text-sm text-[#1E1C1A] mb-2">
-                    Transform
+                    {t.techVision.transformTitle}
                   </h3>
                   <p className="text-xs text-[#6E6458] leading-relaxed">
-                    Build sustainable HR practices that address current challenges and anticipate future needs.
+                    {t.techVision.transformDesc}
                   </p>
                 </div>
               </div>

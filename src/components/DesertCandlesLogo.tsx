@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface LogoProps {
   className?: string;
@@ -14,6 +15,13 @@ export const DesertCandlesLogo: React.FC<LogoProps> = ({
   showSubtitle = false,
 }) => {
   const isDark = theme === 'dark';
+  let isArabic = false;
+  try {
+    const langContext = useLanguage();
+    isArabic = langContext.language === 'ar';
+  } catch {
+    // fallback
+  }
 
   const sizeClasses = {
     sm: { symbol: 'w-7 h-9', text: 'text-base', sub: 'text-[9px]' },
@@ -128,29 +136,50 @@ export const DesertCandlesLogo: React.FC<LogoProps> = ({
       {/* Brand Typography */}
       <div className="flex flex-col">
         <div className="flex items-baseline gap-1">
-          <span
-            className={`font-serif font-semibold tracking-tight ${sizeClasses.text} ${
-              isDark ? 'text-[#F5F2EB]' : 'text-[#1E1C1A]'
-            }`}
-          >
-            Desert Candles
-          </span>
-          <span
-            className={`font-serif text-sm sm:text-base font-normal ${
-              isDark ? 'text-[#D4A373]' : 'text-[#2A2622]'
-            }`}
-          >
-            Est.
-          </span>
+          {isArabic ? (
+            <>
+              <span
+                className={`font-serif font-bold tracking-normal ${sizeClasses.text} ${
+                  isDark ? 'text-[#F5F2EB]' : 'text-[#1E1C1A]'
+                }`}
+              >
+                شموع الصحراء
+              </span>
+              <span
+                className={`text-xs sm:text-sm font-medium ${
+                  isDark ? 'text-[#D4A373]' : 'text-[#8A6740]'
+                }`}
+              >
+                مؤسسة
+              </span>
+            </>
+          ) : (
+            <>
+              <span
+                className={`font-serif font-semibold tracking-tight ${sizeClasses.text} ${
+                  isDark ? 'text-[#F5F2EB]' : 'text-[#1E1C1A]'
+                }`}
+              >
+                Desert Candles
+              </span>
+              <span
+                className={`font-serif text-sm sm:text-base font-normal ${
+                  isDark ? 'text-[#D4A373]' : 'text-[#2A2622]'
+                }`}
+              >
+                Est.
+              </span>
+            </>
+          )}
         </div>
 
         {showSubtitle && (
           <span
-            className={`font-sans uppercase text-[9px] tracking-[0.16em] font-medium -mt-0.5 ${
+            className={`font-sans uppercase text-[9px] tracking-[0.14em] font-medium -mt-0.5 ${
               isDark ? 'text-[#B8AA99]' : 'text-[#8A7D6F]'
             }`}
           >
-            HR Consultancy & E-Services
+            {isArabic ? 'استشارات الموارد البشرية والخدمات الإلكترونية' : 'HR Consultancy & E-Services'}
           </span>
         )}
       </div>

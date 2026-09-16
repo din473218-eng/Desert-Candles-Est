@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { SERVICES } from '../data';
 import { ServiceItem } from '../types';
 import { ServiceModal } from './ServiceModal';
+import { useLanguage } from '../context/LanguageContext';
 import {
   TrendingUp,
   Users,
@@ -28,6 +28,7 @@ interface ServicesShowcaseProps {
 export const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({
   onSelectServiceForConsultation,
 }) => {
+  const { t } = useLanguage();
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
 
   const handleBookConsultation = (title: string) => {
@@ -45,20 +46,19 @@ export const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-8 h-[1px] bg-[#B87B3E]/60" />
             <span className="text-xs uppercase tracking-[0.25em] font-medium text-[#B87B3E] font-sans">
-              OUR HR SOLUTIONS
+              {t.servicesSection.eyebrow}
             </span>
             <div className="w-8 h-[1px] bg-[#B87B3E]/60" />
           </div>
 
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#1E1C1A] tracking-tight leading-tight">
-            Comprehensive HR consulting and technology-driven <br className="hidden sm:inline" />
-            services designed around your organization's needs.
+            {t.servicesSection.title}
           </h2>
         </div>
 
         {/* 6 White Cards in 3x2 Grid matching the reference */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {SERVICES.map((service) => (
+          {t.servicesSection.items.map((service) => (
             <div
               key={service.id}
               onClick={() => setSelectedService(service)}
@@ -88,8 +88,8 @@ export const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({
 
               {/* Link at Bottom */}
               <div className="pt-2 flex items-center gap-1.5 text-xs font-medium text-[#B87B3E] group-hover:underline">
-                <span>Learn More</span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                <span>{t.servicesSection.learnMore}</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180" />
               </div>
             </div>
           ))}

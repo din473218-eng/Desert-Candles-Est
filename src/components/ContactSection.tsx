@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Mail, Phone, CheckCircle } from 'lucide-react';
 import { ContactFormData } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ContactSectionProps {
   initialSubject?: string;
 }
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }) => {
+  const { t } = useLanguage();
+
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -30,7 +33,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setErrorMsg('Please fill in required fields (Name, Email, Message).');
+      setErrorMsg(t.contact.errorRequired);
       return;
     }
     setIsSubmitting(true);
@@ -47,11 +50,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
           {/* Left Column: Direct Info */}
           <div className="lg:col-span-5">
             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#1E1C1A] tracking-tight mb-4">
-              Let's Start a Conversation
+              {t.contact.title}
             </h2>
 
             <p className="text-xs sm:text-sm text-[#5E5448] leading-relaxed mb-8 max-w-md">
-              If you are looking to transform your HR practices and leverage the power of e-services, Desert Candles is here to help.
+              {t.contact.description}
             </p>
 
             <div className="space-y-4">
@@ -92,10 +95,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                   <CheckCircle className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg font-serif font-bold text-[#1E1C1A] mb-2">
-                  Thank You for Your Inquiry
+                  {t.contact.successTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#6E6458] mb-6 max-w-sm mx-auto">
-                  Your message has been received. Our team will get back to you shortly.
+                  {t.contact.successDesc}
                 </p>
                 <button
                   onClick={() => {
@@ -104,7 +107,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                   }}
                   className="px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-[#B87B3E] hover:bg-[#A36B32] transition-colors cursor-pointer"
                 >
-                  Send Another Message
+                  {t.contact.sendAnother}
                 </button>
               </div>
             ) : (
@@ -122,7 +125,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Name *"
+                    placeholder={t.contact.namePlaceholder}
                     required
                     className="w-full px-4 py-3 rounded-lg bg-white border border-[#E0D7C6] text-[#1E1C1A] placeholder-[#9E9182] text-xs focus:outline-none focus:border-[#B87B3E] transition-colors shadow-sm"
                   />
@@ -131,7 +134,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="Email *"
+                    placeholder={t.contact.emailPlaceholder}
                     required
                     className="w-full px-4 py-3 rounded-lg bg-white border border-[#E0D7C6] text-[#1E1C1A] placeholder-[#9E9182] text-xs focus:outline-none focus:border-[#B87B3E] transition-colors shadow-sm"
                   />
@@ -144,7 +147,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="Phone *"
+                    placeholder={t.contact.phonePlaceholder}
                     className="w-full px-4 py-3 rounded-lg bg-white border border-[#E0D7C6] text-[#1E1C1A] placeholder-[#9E9182] text-xs focus:outline-none focus:border-[#B87B3E] transition-colors shadow-sm"
                   />
                   <input
@@ -152,7 +155,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    placeholder="Company *"
+                    placeholder={t.contact.companyPlaceholder}
                     className="w-full px-4 py-3 rounded-lg bg-white border border-[#E0D7C6] text-[#1E1C1A] placeholder-[#9E9182] text-xs focus:outline-none focus:border-[#B87B3E] transition-colors shadow-sm"
                   />
                 </div>
@@ -164,7 +167,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    placeholder="Message *"
+                    placeholder={t.contact.messagePlaceholder}
                     required
                     className="w-full px-4 py-3 rounded-lg bg-white border border-[#E0D7C6] text-[#1E1C1A] placeholder-[#9E9182] text-xs focus:outline-none focus:border-[#B87B3E] transition-colors shadow-sm resize-none"
                   />
@@ -177,7 +180,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                     disabled={isSubmitting}
                     className="px-7 py-3 rounded-md text-xs font-semibold text-white bg-[#B87B3E] hover:bg-[#A36B32] transition-colors shadow-sm cursor-pointer disabled:opacity-70"
                   >
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                    {isSubmitting ? t.contact.sending : t.contact.sendMessage}
                   </button>
                 </div>
               </form>

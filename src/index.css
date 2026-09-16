@@ -6,6 +6,12 @@
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
 
+  [dir="rtl"] {
+    --font-serif: 'Amiri', 'Traditional Arabic', 'Cairo', serif;
+    --font-sans: 'Cairo', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
+  }
+
   body {
     font-family: var(--font-sans);
     background-color: #FAF8F5;
@@ -15,6 +21,14 @@
 
   h1, h2, h3, .font-display {
     font-family: var(--font-serif);
+  }
+
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] .font-display {
+    font-family: var(--font-serif);
+    line-height: 1.35;
   }
 }
 

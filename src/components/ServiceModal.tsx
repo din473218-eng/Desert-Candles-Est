@@ -1,6 +1,7 @@
 import React from 'react';
 import { ServiceItem } from '../types';
 import { X, Check, ArrowRight, Sparkles, Shield, Clock } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ServiceModalProps {
   service: ServiceItem | null;
@@ -13,6 +14,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
   onClose,
   onBookConsultation,
 }) => {
+  const { t, isRTL } = useLanguage();
   if (!service) return null;
 
   return (
@@ -27,8 +29,8 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-[#231a13] border border-[#c88a2c]/30 text-[#d8c7b0] hover:text-[#f59e0b] hover:bg-[#2c2017] transition-colors cursor-pointer"
-          aria-label="Close details"
+          className="absolute top-5 right-5 rtl:right-auto rtl:left-5 p-2 rounded-full bg-[#231a13] border border-[#c88a2c]/30 text-[#d8c7b0] hover:text-[#f59e0b] hover:bg-[#2c2017] transition-colors cursor-pointer"
+          aria-label={t.serviceModal.close}
         >
           <X className="w-5 h-5" />
         </button>
@@ -39,7 +41,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
             {service.number}
           </span>
           <span className="text-xs uppercase tracking-widest font-semibold px-3 py-1 rounded-full bg-[#c88a2c]/15 text-[#f59e0b] border border-[#c88a2c]/30">
-            Desert Candles E-Services
+            {t.brand.name}
           </span>
         </div>
 
@@ -65,7 +67,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
           <div>
             <h4 className="text-xs uppercase tracking-wider font-semibold text-[#f59e0b] mb-3 flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Key Capabilities</span>
+              <span>{t.serviceModal.coreDeliverables}</span>
             </h4>
             <ul className="space-y-2.5">
               {service.features.map((feature, idx) => (
@@ -80,7 +82,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
           <div>
             <h4 className="text-xs uppercase tracking-wider font-semibold text-[#f59e0b] mb-3 flex items-center gap-2">
               <Shield className="w-3.5 h-3.5" />
-              <span>Organizational Impact</span>
+              <span>{t.serviceModal.keyBenefits}</span>
             </h4>
             <ul className="space-y-2.5">
               {service.benefits.map((benefit, idx) => (
@@ -97,7 +99,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
         <div className="pt-6 border-t border-[#c88a2c]/25 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs text-[#a99986]">
             <Clock className="w-4 h-4 text-[#c88a2c]" />
-            <span>Tailored execution roadmap</span>
+            <span>{isRTL ? 'خطة تنفيذ مخصصة لمنظمتك' : 'Tailored execution roadmap'}</span>
           </div>
 
           <button
@@ -105,10 +107,10 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
               onClose();
               onBookConsultation(service.title);
             }}
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-xs sm:text-sm font-semibold text-black bg-gradient-to-r from-[#f59e0b] to-[#c88a2c] hover:from-[#fbbf24] hover:to-[#d97706] transition-all shadow-[0_0_20px_rgba(217,119,6,0.4)] cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full text-xs sm:text-sm font-semibold text-black bg-gradient-to-r from-[#f59e0b] to-[#c88a2c] hover:from-[#fbbf24] hover:to-[#d97706] transition-all shadow-[0_0_20px_rgba(217,119,6,0.4)] cursor-pointer gap-2"
           >
-            <span>Inquire About This Service</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
+            <span>{t.serviceModal.bookConsultation}</span>
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
           </button>
         </div>
       </div>
