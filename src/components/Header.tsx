@@ -1,44 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { DesertCandlesLogo } from './DesertCandlesLogo';
 import { Menu, X, Globe } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-interface HeaderProps {
-  onOpenContact?: () => void;
-}
-
-export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
+export const Header: React.FC = () => {
   const { t, language, toggleLanguage } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-
-      const sections = [
-        'home',
-        'about',
-        'services',
-        'approach',
-        'why-us',
-        'vision-mission',
-        'contact',
-      ];
-      const scrollPos = window.scrollY + 120;
-
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -46,22 +21,20 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
   }, []);
 
   const navLinks = [
-    { label: t.nav.home, href: '#home', id: 'home' },
-    { label: t.nav.about, href: '#about', id: 'about' },
-    { label: t.nav.services, href: '#services', id: 'services' },
-    { label: t.nav.approach, href: '#approach', id: 'approach' },
-    { label: t.nav.whyUs, href: '#why-us', id: 'why-us' },
-    { label: t.nav.visionMission, href: '#vision-mission', id: 'vision-mission' },
-    { label: t.nav.contact, href: '#contact', id: 'contact' },
+    { label: t.nav.home, path: '/' },
+    { label: t.nav.about, path: '/about' },
+    { label: t.nav.services, path: '/services' },
+    { label: t.nav.approach, path: '/our-approach' },
+    { label: t.nav.whyUs, path: '/why-choose-us' },
+    { label: t.nav.visionMission, path: '/vision-mission' },
+    { label: t.nav.contact, path: '/contact' },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+  const isActiveRoute = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
     }
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
   return (
@@ -74,32 +47,35 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Brand Logo matching the exact reference */}
-          <a
-            href="#home"
-            onClick={(e) => handleNavClick(e, '#home')}
+          {/* Brand Logo */}
+          <Link
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
             className="flex items-center focus:outline-none"
+            aria-label="Desert Candles Home"
           >
             <DesertCandlesLogo theme="light" size="md" />
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-7">
             {navLinks.map((link) => {
-              const isActive = activeSection === link.id;
+              const active = isActiveRoute(link.path);
               return (
-                <a
-                  key={link.id}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`text-[13.5px] font-medium transition-colors duration-200 tracking-normal ${
-                    isActive
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-[13.5px] font-medium transition-all duration-200 tracking-normal relative py-1 ${
+                    active
                       ? 'text-[#B87B3E] font-semibold'
                       : 'text-[#4A433B] hover:text-[#B87B3E]'
                   }`}
                 >
                   {link.label}
-                </a>
+                  {active && (
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#B87B3E] rounded-full animate-fade-in" />
+                  )}
+                </Link>
               );
             })}
           </nav>
@@ -119,12 +95,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
             <button
               id="header-lets-talk-btn"
-              onClick={() => {
-                if (onOpenContact) onOpenContact();
-                else {
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              onClick={() => navigate('/contact')}
               className="px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-[#B87B3E] hover:bg-[#A36B32] transition-all duration-200 shadow-sm cursor-pointer"
             >
               {t.nav.letsTalk}
@@ -155,23 +126,26 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden bg-[#FAF8F5] border-b border-[#EADFCF] px-4 pt-2 pb-6 space-y-3 shadow-lg">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className={`block px-3 py-2 rounded-lg text-sm font-medium ${
-                activeSection === link.id
-                  ? 'bg-[#F2ECE1] text-[#B87B3E] font-semibold'
-                  : 'text-[#4A433B] hover:text-[#B87B3E]'
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="sm:hidden bg-[#FAF8F5] border-b border-[#EADFCF] px-4 pt-2 pb-6 space-y-2 shadow-lg">
+          {navLinks.map((link) => {
+            const active = isActiveRoute(link.path);
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  active
+                    ? 'bg-[#F2ECE1] text-[#B87B3E] font-semibold'
+                    : 'text-[#4A433B] hover:text-[#B87B3E]'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
 
-          <div className="pt-2 border-t border-[#EAE1D3] space-y-2">
+          <div className="pt-3 border-t border-[#EAE1D3] space-y-2">
             <button
               onClick={() => {
                 toggleLanguage();
@@ -186,7 +160,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                navigate('/contact');
               }}
               className="w-full px-5 py-3 rounded-full text-xs font-semibold text-white bg-[#B87B3E] hover:bg-[#A36B32] transition-colors"
             >

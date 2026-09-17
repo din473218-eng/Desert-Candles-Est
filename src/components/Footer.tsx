@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { DesertCandlesLogo } from './DesertCandlesLogo';
 import { Mail, Phone } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -7,20 +8,14 @@ export const Footer: React.FC = () => {
   const { t } = useLanguage();
 
   const navLinks = [
-    { label: t.nav.home, href: '#home' },
-    { label: t.nav.about, href: '#about' },
-    { label: t.nav.services, href: '#services' },
-    { label: t.nav.approach, href: '#approach' },
-    { label: t.nav.whyUs, href: '#why-us' },
-    { label: t.nav.contact, href: '#contact' },
+    { label: t.nav.home, path: '/' },
+    { label: t.nav.about, path: '/about' },
+    { label: t.nav.services, path: '/services' },
+    { label: t.nav.approach, path: '/our-approach' },
+    { label: t.nav.whyUs, path: '/why-choose-us' },
+    { label: t.nav.visionMission, path: '/vision-mission' },
+    { label: t.nav.contact, path: '/contact' },
   ];
-
-  const handleNavClick = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer className="bg-[#151311] text-[#9E9182] pt-14 pb-10 border-t border-[#26211C]">
@@ -29,7 +24,9 @@ export const Footer: React.FC = () => {
           {/* Left: Brand Logo & Tagline */}
           <div className="max-w-xs">
             <div className="mb-3">
-              <DesertCandlesLogo theme="dark" size="md" />
+              <Link to="/" aria-label="Desert Candles Home">
+                <DesertCandlesLogo theme="dark" size="md" />
+              </Link>
             </div>
             <p className="text-xs text-[#8C7E6F] leading-relaxed">
               {t.footer.tagline}
@@ -39,13 +36,13 @@ export const Footer: React.FC = () => {
           {/* Middle: Horizontal Nav Links */}
           <nav className="flex flex-wrap items-center gap-6 text-xs text-[#B8AA99]">
             {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.href)}
+              <Link
+                key={link.path}
+                to={link.path}
                 className="hover:text-white transition-colors cursor-pointer"
               >
                 {link.label}
-              </button>
+              </Link>
             ))}
           </nav>
 
